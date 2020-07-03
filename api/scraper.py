@@ -2,4 +2,6 @@ from flask import jsonify, request
 
 
 def test():
-    return
+    jsonify()  # for pre-commit test
+    request
+    return "hello!"
