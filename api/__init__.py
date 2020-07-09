@@ -1,5 +1,19 @@
-from flask import Blueprint
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-bp = Blueprint('api', __name__)
+db = SQLAlchemy()
 
-from api import scraper
+
+def create_app():
+    """Construct the core application."""
+    app = Flask(__name__, instance_relative_config=False)
+    app.config.from_object("config.Config")
+
+    db.init_app(app)
+
+    with app.app_context():
+        import api.data_api  # Import routes
+
+        db.create_all()  # Create sql tables for our data models
+
+        return app
